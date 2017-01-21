@@ -1,5 +1,5 @@
 {
-    "name": "jlapp/swaggervel",
+    "name": "appointer/swaggervel",
     "description": "A great way to integrate Swagger into Laravel",
     "keywords": ["laravel", "swagger", "l4", "l5", "documentation", "api"],
     "version": "5.0.0",
@@ -8,6 +8,10 @@
         {
             "name": "jlapp",
             "email": "jordan@jordanlapp.com"
+        },
+        {
+            "name": "Florian Greinus",
+            "email": "florian.greinus@gmail.com"
         }
     ],
     "require": {
