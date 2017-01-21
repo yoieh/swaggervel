@@ -112,7 +112,8 @@ header("Access-Control-Allow-Headers: X-Requested-With");
                 jsonEditor: false,
                 defaultModelRendering: 'schema',
                 showRequestHeaders: false,
-                showOperationIds: false
+                showOperationIds: false,
+                apisSorter: "alpha"
             });
 
             function addApiKeyAuthorization() {

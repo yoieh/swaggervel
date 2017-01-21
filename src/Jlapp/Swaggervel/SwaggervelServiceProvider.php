@@ -19,7 +19,7 @@ class SwaggervelServiceProvider extends ServiceProvider {
     public function boot() {
         $this->publishes([
             __DIR__.'/../../config/swaggervel.php' => config_path('swaggervel.php'),
-        ]);
+        ], 'swaggervel');
 
         $this->publishes([
             __DIR__.'/../../../public' => public_path('vendor/swaggervel'),
@@ -30,7 +30,7 @@ class SwaggervelServiceProvider extends ServiceProvider {
 
         $this->publishes([
             __DIR__.'/../../views' => base_path('resources/views/vendor/swaggervel'),
-        ]);
+        ], 'swaggervel');
     }
     /**
      * Register the service provider.
