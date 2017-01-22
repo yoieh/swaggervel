@@ -5,7 +5,7 @@ This package combines [Swagger-php](https://github.com/zircote/swagger-php) and 
 When you run your app in debug mode, Swaggervel will scan your app folder (or any folder that is set under the "app-dir" variable in the packages config), generate swagger json files and deposit them to the doc-dir folder (default is `/docs`). Files are then served by swagger-ui under the api-docs director.
 
 ## Installation
-- Add `Jlapp\Swaggervel\SwaggervelServiceProvider` to your providers array in `app/config/app.php` above your route provider, to avoid any catch-all routes
+- Add `Jlapp\Swaggervel\SwaggervelServiceProvider::class` to your providers array in `app/config/app.php` above your route provider, to avoid any catch-all routes
 - Run `php artisan vendor:publish` to push swagger-ui to your public folder.
 
 ## Example
