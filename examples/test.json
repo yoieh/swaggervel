@@ -1,0 +1,600 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Example API",
+        "description": "This is the API documentation of the first party API of example.com",
+        "version": "0.1"
+    },
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/oauth/token": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Retrieve a oAuth2 Access token for a user account",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "grant_type": {
+                                    "type": "string",
+                                    "example": "password"
+                                },
+                                "client_id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                },
+                                "client_secret": {
+                                    "type": "string",
+                                    "example": "xx9TaaO25lPdajGJ0m2LRB1lasdYPGvjVb63U4F"
+                                },
+                                "username": {
+                                    "type": "string",
+                                    "example": "test@tester.de"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "supersicher1234"
+                                },
+                                "scope": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "properties": {
+                                "token_type": {
+                                    "type": "string",
+                                    "example": "Bearer"
+                                },
+                                "expires_in": {
+                                    "type": "integer",
+                                    "example": "31536000"
+                                },
+                                "access_token": {
+                                    "type": "string"
+                                },
+                                "refresh_token": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/contact": {
+            "get": {
+                "tags": [
+                    "social"
+                ],
+                "summary": "Get contacts that have been matched on an existing user",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/oAuth2AccessToken"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contact objects are returned",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Contact"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid/missing oAuth2 Access Token"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "social"
+                ],
+                "summary": "Create a new contact",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/oAuth2AccessToken"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Harry Hirsch"
+                                },
+                                "email_addresses": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "email_address": {
+                                                "type": "string",
+                                                "example": "flori@web.de"
+                                            },
+                                            "label": {
+                                                "type": "string",
+                                                "example": "Privat"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "phone_numbers": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "phone_number": {
+                                                "type": "string",
+                                                "example": "131231231"
+                                            },
+                                            "label": {
+                                                "type": "string",
+                                                "example": "Privat"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully created the contact",
+                        "schema": {
+                            "$ref": "#/definitions/Contact"
+                        }
+                    },
+                    "422": {
+                        "description": "The validation has failed",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationMessageBag"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contact/batch": {
+            "post": {
+                "tags": [
+                    "social"
+                ],
+                "summary": "Batch create new contacts",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/oAuth2AccessToken"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Harry Hirsch"
+                                    },
+                                    "email_addresses": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "email_address": {
+                                                    "type": "string",
+                                                    "example": "flori@web.de"
+                                                },
+                                                "label": {
+                                                    "type": "string",
+                                                    "example": "Privat"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "phone_numbers": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "phone_number": {
+                                                    "type": "string",
+                                                    "example": "12312312"
+                                                },
+                                                "label": {
+                                                    "type": "string",
+                                                    "example": "Privat"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully created the contact",
+                        "schema": {
+                            "properties": {
+                                "count": {
+                                    "type": "integer",
+                                    "example": "42"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "422": {
+                        "description": "The validation has failed",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationMessageBag"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contact/{id}": {
+            "put": {
+                "tags": [
+                    "social"
+                ],
+                "summary": "Update an existing new contact (will remove all email addresses and phone numbers and add the provided ones)",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/oAuth2AccessToken"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Harry Hirsch"
+                                },
+                                "email_addresses": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "email_address": {
+                                                "type": "string",
+                                                "example": "flori@web.de"
+                                            },
+                                            "label": {
+                                                "type": "string",
+                                                "example": "Privat"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "phone_numbers": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "phone_number": {
+                                                "type": "string",
+                                                "example": "12312312"
+                                            },
+                                            "label": {
+                                                "type": "string",
+                                                "example": "Privat"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated the contact",
+                        "schema": {
+                            "$ref": "#/definitions/Contact"
+                        }
+                    },
+                    "422": {
+                        "description": "The validation has failed",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationMessageBag"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "social"
+                ],
+                "summary": "Delete a specific contact",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/oAuth2AccessToken"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted the contact"
+                    },
+                    "401": {
+                        "description": "Invalid/missing oAuth2 Access Token"
+                    },
+                    "403": {
+                        "description": "Missing authorization to access to requested entity"
+                    },
+                    "404": {
+                        "description": "Entity not found"
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Retrieve the user's information",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/oAuth2AccessToken"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User object is returned",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid/missing oAuth2 Access Token"
+                    }
+                }
+            }
+        },
+        "/api/user/register": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register a new user account",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Testi Tester"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "testi.tester@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "supersicher1234"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully created the user - you may now login"
+                    },
+                    "422": {
+                        "description": "The validation has failed",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationMessageBag"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/forgotPassword": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Recover the user's password",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "valentin.vergesslich@gmail.com"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An email with a reset link has been sent."
+                    },
+                    "422": {
+                        "description": "An error occurred",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationMessageBag"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Contact": {
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": "5"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": "4"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Testi Tester"
+                },
+                "is_favorite": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "email_addresses": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/ContactEmailAddress"
+                    }
+                },
+                "phone_numbers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/ContactPhoneNumber"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "ContactEmailAddress": {
+            "properties": {
+                "email_address": {
+                    "type": "string",
+                    "example": "florian.greinus@gmail.com "
+                },
+                "email_address_normalized": {
+                    "type": "string",
+                    "example": "florian.greinus@gmail.com"
+                },
+                "label": {
+                    "type": "string",
+                    "example": "Privat"
+                }
+            },
+            "type": "object"
+        },
+        "ContactPhoneNumber": {
+            "properties": {
+                "phone_number": {
+                    "type": "string",
+                    "example": "0522617587"
+                },
+                "phone_number_normalized": {
+                    "type": "string",
+                    "example": "+49522617587"
+                },
+                "label": {
+                    "type": "string",
+                    "example": "Privat"
+                }
+            },
+            "type": "object"
+        },
+        "User": {
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": "5"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Testi Tester"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "testi.tester@gmail.com"
+                }
+            },
+            "type": "object"
+        },
+        "ValidationMessageBag": {
+            "properties": {
+                "fieldName": {
+                    "type": "array",
+                    "items": {
+                        "description": "Messages",
+                        "type": "string",
+                        "example": "Email already taken!"
+                    }
+                }
+            },
+            "type": "object"
+        }
+    },
+    "parameters": {
+        "oAuth2AccessToken": {
+            "name": "Authorization",
+            "in": "header",
+            "description": "oAuth2 Access Token",
+            "required": true,
+            "type": "string",
+            "default": "Bearer ..."
+        }
+    },
+    "tags": [
+        {
+            "name": "user",
+            "description": "All user-object related requests"
+        },
+        {
+            "name": "auth",
+            "description": "All authentication related requests"
+        },
+        {
+            "name": "social",
+            "description": "All social and community related requests"
+        }
+    ]
+}
