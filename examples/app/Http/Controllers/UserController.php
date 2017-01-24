@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Http\Controllers;
-
 use App\Entities\User;
 use App\Http\Requests\User\ForgotPasswordFormRequest;
 use App\Http\Requests\User\RegistrationFormRequest;

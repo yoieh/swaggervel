@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Http\Controllers\Social;
-
 use App\Entities\Contact;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Social\BatchContactFormRequest;
