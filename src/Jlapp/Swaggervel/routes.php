@@ -1,79 +1,73 @@
 <?php
+use Illuminate\Http\Request;
 
-Route::any(Config::get('swaggervel.doc-route').'/{page?}', function($page='api-docs.json') {
-    $filePath = Config::get('swaggervel.doc-dir') . "/{$page}";
+Route::any(config('swaggervel.doc-route') . '/{page?}', function ($page = 'api-docs.json') {
+    $filePath = config('swaggervel.doc-dir') . "/{$page}";
 
     if (File::extension($filePath) === "") {
         $filePath .= ".json";
     }
-    if (!File::Exists($filePath)) {
-        App::abort(404, "Cannot find {$filePath}");
+
+    if (!File::exists($filePath)) {
+        app()->abort(404, "Cannot find {$filePath}");
     }
 
     $content = File::get($filePath);
-    return Response::make($content, 200, array(
+    return response($content, 200, array(
         'Content-Type' => 'application/json'
     ));
 });
 
-Route::get(Config::get('swaggervel.api-docs-route'), function() {
-    if (Config::get('swaggervel.generateAlways')) {
-        $appDir = base_path()."/".Config::get('swaggervel.app-dir');
-        $docDir = Config::get('swaggervel.doc-dir');
-
-        if (!File::exists($docDir) || is_writable($docDir)) {
-            // delete all existing documentation
-            if (File::exists($docDir)) {
-                File::deleteDirectory($docDir);
+Route::get(config('swaggervel.api-docs-route'), function (Request $request) {
+    if (config('swaggervel.generateAlways')) {
+        $dir = config('swaggervel.app-dir');
+        if (is_array($dir)) {
+            $appDir = [];
+            foreach($dir as $d) {
+                $appDir[] = base_path($d);
             }
+        } else {
+            $appDir = base_path($dir);
+        }
 
+        $docDir = config('swaggervel.doc-dir');
+
+        if (!File::exists($docDir)) {
             File::makeDirectory($docDir);
+        }
 
-            $defaultBasePath = Config::get('swaggervel.default-base-path');
-            $defaultApiVersion = Config::get('swaggervel.default-api-version');
-            $defaultSwaggerVersion = Config::get('swaggervel.default-swagger-version');
-            $excludeDirs = Config::get('swaggervel.excludes');
+        if (is_writable($docDir)) {
+            $excludeDirs = config('swaggervel.excludes');
 
-            $swagger =  \Swagger\scan($appDir, [
+            $swagger = \Swagger\scan($appDir, [
                 'exclude' => $excludeDirs
-                ]);
+            ]);
 
             $filename = $docDir . '/api-docs.json';
             file_put_contents($filename, $swagger);
         }
     }
 
-    if (Config::get('swaggervel.behind-reverse-proxy')) {
-        $proxy = Request::server('REMOTE_ADDR');
-        Request::setTrustedProxies(array($proxy));
+    if (config('swaggervel.behind-reverse-proxy')) {
+        $proxy = $request->server('REMOTE_ADDR');
+        $request->setTrustedProxies(array($proxy));
     }
 
     //need the / at the end to avoid CORS errors on Homestead systems.
-    $response = response()->view('swaggervel::index', array(
-        'secure'         => Request::secure(),
-        'urlToDocs'      => url(Config::get('swaggervel.doc-route')),
-        'requestHeaders' => Config::get('swaggervel.requestHeaders'),
-        'clientId'       => Request::input("client_id"),
-        'clientSecret'   => Request::input("client_secret"),
-        'realm'          => Request::input("realm"),
-        'appName'        => Request::input("appName"),
-        )
+    $response = response()->view('swaggervel::index', [
+            'secure' => $request->secure(),
+            'urlToDocs' => url(config('swaggervel.doc-route')),
+            'requestHeaders' => config('swaggervel.requestHeaders'),
+            'clientId' => $request->input("client_id"),
+            'clientSecret' => $request->input("client_secret"),
+            'realm' => $request->input("realm"),
+            'appName' => $request->input("appName"),
+            'apiKey' => config("swaggervel.api-key"),
+        ]
     );
 
-    //need the / at the end to avoid CORS errors on Homestead systems.
-    /*$response = Response::make(
-        View::make('swaggervel::index', array(
-                'secure'         => Request::secure(),
-                'urlToDocs'      => url(Config::get('swaggervel.doc-route')),
-                'requestHeaders' => Config::get('swaggervel.requestHeaders') )
-        ),
-        200
-    );*/
-
-    if (Config::has('swaggervel.viewHeaders')) {
-        foreach (Config::get('swaggervel.viewHeaders') as $key => $value) {
-            $response->header($key, $value);
-        }
+    foreach (config('swaggervel.viewHeaders', []) as $key => $value) {
+        $response->header($key, $value);
     }
 
     return $response;

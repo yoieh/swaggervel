@@ -1,7 +1,7 @@
 {
     "name": "appointer/swaggervel",
     "description": "A great way to integrate Swagger into Laravel",
-    "keywords": ["laravel", "swagger", "l4", "l5", "documentation", "api"],
+    "keywords": ["laravel", "swagger", "documentation", "api"],
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "zircote/swagger-php": "*"
+        "zircote/swagger-php": "2.*"
     },
     "autoload": {
         "psr-0": {
