@@ -1,6 +1,7 @@
 <?php namespace Jlapp\Swaggervel;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class SwaggervelServiceProvider extends ServiceProvider {
 
@@ -31,6 +32,12 @@ class SwaggervelServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/../../views' => base_path('resources/views/vendor/swaggervel'),
         ], 'swaggervel');
+
+        if (!$this->app->routesAreCached()) {
+            Route::group(['namespace' => '\Jlapp\Swaggervel\Http\Controllers'], function ($router) {
+                require __DIR__ . '/Http/routes.php';
+            });
+        }
     }
     /**
      * Register the service provider.
@@ -42,8 +49,5 @@ class SwaggervelServiceProvider extends ServiceProvider {
         $this->mergeConfigFrom(
             __DIR__.'/../../config/swaggervel.php', 'swaggervel'
         );
-
-        require_once __DIR__ .'/routes.php';
     }
-
 }
