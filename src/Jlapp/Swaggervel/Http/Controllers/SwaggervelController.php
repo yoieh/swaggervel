@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
+use Illuminate\Routing\Controller;
 
-class SwaggervelController
+class SwaggervelController extends Controller
 {
     public function definitions($page = 'api-docs.json')
     {
