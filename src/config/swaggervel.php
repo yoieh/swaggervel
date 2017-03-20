@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     /*
       |--------------------------------------------------------------------------
       | Absolute path to location where parsed swagger annotations will be stored
@@ -27,72 +27,53 @@ return array(
       | Absolute path to directory containing the swagger annotations are stored.
       |--------------------------------------------------------------------------
     */
-    "app-dir" => "app",
+    'app-dir' => 'app',
 
     /*
       |--------------------------------------------------------------------------
       | Absolute path to directories that you would like to exclude from swagger generation
       |--------------------------------------------------------------------------
     */
-    "excludes" => array(
-        storage_path(),
-        base_path("tests"),
-        base_path("resources/views"),
-        base_path("config"),
-        base_path("vendor"),
-    ),
+    'excludes' => [
+    ],
 
     /*
       |--------------------------------------------------------------------------
-      | Turn this off to remove swagger generation on production
+      | If set to true, automatically regenerates the definitions everytime you open the UI
       |--------------------------------------------------------------------------
     */
-    "generateAlways" => true,
+    "auto-generate" => true,
 
+    /*
+      |--------------------------------------------------------------------------
+      | ...
+      |--------------------------------------------------------------------------
+    */
     "api-key" => "auth_token",
-
-    /*
-      |--------------------------------------------------------------------------
-      | Edit to set the api's version number
-      |--------------------------------------------------------------------------
-    */
-    "default-api-version" => "v1",
-
-    /*
-      |--------------------------------------------------------------------------
-      | Edit to set the swagger version number
-      |--------------------------------------------------------------------------
-    */
-    "default-swagger-version" => "2.0",
-
-    /*
-      |--------------------------------------------------------------------------
-      | Edit to set the api's base path
-      |--------------------------------------------------------------------------
-    */
-    "default-base-path" => "",
 
     /*
       |--------------------------------------------------------------------------
       | Edit to trust the proxy's ip address - needed for AWS Load Balancer
       |--------------------------------------------------------------------------
     */
-    "behind-reverse-proxy" => false,
+    'behind-reverse-proxy' => false,
+
     /*
       |--------------------------------------------------------------------------
       | Uncomment to add response headers when swagger is generated
       |--------------------------------------------------------------------------
     */
-    /*"viewHeaders" => array(
-        'Content-Type' => 'text/plain'
-    ),*/
+    'viewHeaders' => [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'GET, POST',
+        'Access-Control-Allow-Headers' => 'X-Requested-With',
+    ],
 
     /*
       |--------------------------------------------------------------------------
-      | Uncomment to add request headers when swagger performs requests
+      | Uncomment to add request headers when swagger-ui performs requests
       |--------------------------------------------------------------------------
     */
-    /*"requestHeaders" => array(
-        'TestMe' => 'testValue'
-    ),*/
-);
+    "requestHeaders" => [
+    ],
+];
