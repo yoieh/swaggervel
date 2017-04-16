@@ -75,7 +75,7 @@
             presets: [
                 SwaggerUIBundle.presets.apis,
                 // yay ES6 modules ↘
-                Array.isArray(SwaggerUIStandalonePreset) ? SwaggerUIStandalonePreset : SwaggerUIStandalonePreset.default
+                SwaggerUIStandalonePreset
             ],
             plugins: [
                 SwaggerUIBundle.plugins.DownloadUrl
