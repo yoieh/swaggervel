@@ -80,7 +80,9 @@
             plugins: [
                 SwaggerUIBundle.plugins.DownloadUrl
             ],
-            layout: "StandaloneLayout"
+            layout: "StandaloneLayout",
+            operationsSorter: 'alpha',
+            validatorUrl: null
         });
 
         window.ui = ui
