@@ -42,22 +42,19 @@ class SwaggervelController extends Controller
         }
 
         //need the / at the end to avoid CORS errors on Homestead systems.
-        $response = response()->view('swaggervel::index', [
+        return response()
+            ->view('swaggervel::index', [
                 'urlToDocs' => url(config('swaggervel.doc-route')),
-                'requestHeaders' => config('swaggervel.requestHeaders'),
-                'clientId' => $request->input('client_id'),
-                'clientSecret' => $request->input('client_secret'),
-                'realm' => $request->input('realm'),
-                'appName' => $request->input('appName'),
-                'apiKey' => config('swaggervel.api-key'),
-            ]
-        );
-
-        foreach (config('swaggervel.viewHeaders', []) as $key => $value) {
-            $response->header($key, $value);
-        }
-
-        return $response;
+                'clientId' => config('swaggervel.client-id'),
+                'clientSecret' => config('swaggervel.client-secret'),
+                'realm' => config('swaggervel.realm'),
+                'appName' => config('swaggervel.app-name'),
+                'initOAuth' => config('swaggervel.init-o-auth'),
+                'scopeSeparator' => config('swaggervel.scope-separator'),
+                'additionalQueryStringParams' => json_encode(config('swaggervel.additional-query-string-params'), JSON_FORCE_OBJECT),
+                'useBasicAuthenticationWithAccessCodeGrant' => config('swaggervel.use-basic-auth-with-access-code-grant') ? 'true' : 'false',
+            ])
+            ->withHeaders(config('swaggervel.view-headers'));
     }
 
     private function regenerateDefinitions()
@@ -65,7 +62,7 @@ class SwaggervelController extends Controller
         $dir = config('swaggervel.app-dir');
         if (is_array($dir)) {
             $appDir = [];
-            foreach($dir as $d) {
+            foreach ($dir as $d) {
                 $appDir[] = base_path($d);
             }
         } else {

@@ -1,5 +1,5 @@
 # Swaggervel (Swagger integration for Laravel 5)
-This package combines [Swagger-php](https://github.com/zircote/swagger-php) and [swagger-ui](https://github.com/wordnik/swagger-ui) into one Laravel-friendly package.
+This package combines [Swagger-php](https://github.com/zircote/swagger-php) and [swagger-ui](https://github.com/swagger-api/swagger-ui) into one Laravel-friendly package.
 When you run your app in debug mode, Swaggervel will scan your app folder (or any folder that is set under the "app-dir" variable in the packages config), generate swagger json files and deposit them to the doc-dir folder (default is `/docs`). Files are then served by swagger-ui under the api-docs director.
 
 ## Installation
@@ -24,4 +24,3 @@ This package is a fork of [slampenny/Swaggervel](https://github.com/slampenny/Sw
 
 ## TODO
 - the handling of the /doc call is still really inconsistent, as you cannot change the file name (api-docs.json), but are able to change the file you acces when using the /doc route.
-- maybe find a better solution then copy&pasting the swagger-ui assets to the repo :-(
