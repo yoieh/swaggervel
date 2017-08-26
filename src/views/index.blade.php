@@ -72,7 +72,7 @@
 
     window.onload = function () {
         // Build a system
-        window.ui = SwaggerUIBundle({
+        const ui = SwaggerUIBundle({
             url: '{{ $urlToDocs }}',
             dom_id: '#swagger-ui',
             deepLinking: true,
@@ -84,7 +84,22 @@
                 SwaggerUIBundle.plugins.DownloadUrl
             ],
             layout: "StandaloneLayout"
-        })
+        });
+
+        @if ($initOAuth)
+// Method can be called in any place after calling constructor SwaggerUIBundle
+        ui.initOAuth({
+            clientId: '{{ $clientId }}',
+            clientSecret: '{{ $clientSecret }}',
+            realm: '{{ $realm }}',
+            appName: '{{ $appName }}',
+            scopeSeparator: '{{ $scopeSeparator }}',
+            additionalQueryStringParams: {{ $additionalQueryStringParams }},
+            useBasicAuthenticationWithAccessCodeGrant: '{{ $useBasicAuthenticationWithAccessCodeGrant }}',
+        });
+        @endif
+
+        window.ui = ui;
     }
 </script>
 </body>

@@ -46,13 +46,6 @@ return [
 
     /*
       |--------------------------------------------------------------------------
-      | ...
-      |--------------------------------------------------------------------------
-    */
-    "api-key" => "auth_token",
-
-    /*
-      |--------------------------------------------------------------------------
       | Edit to trust the proxy's ip address - needed for AWS Load Balancer
       |--------------------------------------------------------------------------
     */
@@ -63,17 +56,71 @@ return [
       | Uncomment to add response headers when swagger is generated
       |--------------------------------------------------------------------------
     */
-    'viewHeaders' => [
-        'Access-Control-Allow-Origin' => '*',
-        'Access-Control-Allow-Methods' => 'GET, POST',
-        'Access-Control-Allow-Headers' => 'X-Requested-With',
+    'view-headers' => [
+        // 'Access-Control-Allow-Origin' => '*',
+        // 'Access-Control-Allow-Methods' => 'GET, POST',
+        // 'Access-Control-Allow-Headers' => 'X-Requested-With',
     ],
 
     /*
       |--------------------------------------------------------------------------
-      | Uncomment to add request headers when swagger-ui performs requests
+      | You can configure OAuth2 authorization by changing value to true
       |--------------------------------------------------------------------------
     */
-    "requestHeaders" => [
+    'init-o-auth' => false,
+
+    /*
+      |--------------------------------------------------------------------------
+      | Default clientId. MUST be a string
+      |--------------------------------------------------------------------------
+    */
+    'client-id' => 'client_id',
+
+    /*
+      |--------------------------------------------------------------------------
+      | Default clientSecret. MUST be a string
+      |--------------------------------------------------------------------------
+    */
+    'client-secret' => 'client_secret',
+
+    /*
+      |--------------------------------------------------------------------------
+      | Realm query parameter (for oauth1) added to authorizationUrl and tokenUrl.
+      | MUST be a string
+      |--------------------------------------------------------------------------
+    */
+    'realm' => '',
+
+    /*
+      |--------------------------------------------------------------------------
+      | Application name, displayed in authorization popup. MUST be a string
+      |--------------------------------------------------------------------------
+    */
+    'app-name' => 'swaggervel',
+
+    /*
+      |--------------------------------------------------------------------------
+      | Scope separator for passing scopes, encoded before calling, default value is a space
+      | (encoded value %20). MUST be a string
+      |--------------------------------------------------------------------------
+    */
+    'scope-separator' => ' ',
+
+    /*
+      |--------------------------------------------------------------------------
+      | Additional query parameters added to authorizationUrl and tokenUrl.
+      |--------------------------------------------------------------------------
+    */
+    'additional-query-string-params' => [
+        // 'QueryStringKey' => 'QueryStringValue'
     ],
+
+    /*
+      |--------------------------------------------------------------------------
+      | Only activated for the accessCode flow. During the authorization_code request to the tokenUrl,
+      | pass the Client Password using the HTTP Basic Authentication scheme
+      | (Authorization header with Basic base64encoded[client_id:client_secret]).
+      |--------------------------------------------------------------------------
+    */
+    'use-basic-auth-with-access-code-grant' => false,
 ];
