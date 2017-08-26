@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<!-- this is for the dev server -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Swagger UI</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url('vendor/swaggervel/swagger-ui.css') }}" >
+    <link rel="icon" type="image/png" href="{{ url('vendor/swaggervel/favicon-32x32.png') }}" sizes="32x32" />
+    <link rel="icon" type="image/png" href="{{ url('vendor/swaggervel/favicon-16x16.png') }}" sizes="16x16" />
     <style>
         html
         {
@@ -67,25 +69,22 @@
 <script src="{{ url('vendor/swaggervel/swagger-ui-bundle.js') }}"></script>
 <script src="{{ url('vendor/swaggervel/swagger-ui-standalone-preset.js') }}"></script>
 <script>
-    window.onload = function() {
+
+    window.onload = function () {
         // Build a system
-        const ui = SwaggerUIBundle({
+        window.ui = SwaggerUIBundle({
             url: '{{ $urlToDocs }}',
             dom_id: '#swagger-ui',
+            deepLinking: true,
             presets: [
                 SwaggerUIBundle.presets.apis,
-                // yay ES6 modules ↘
                 SwaggerUIStandalonePreset
             ],
             plugins: [
                 SwaggerUIBundle.plugins.DownloadUrl
             ],
-            layout: "StandaloneLayout",
-            operationsSorter: 'alpha',
-            validatorUrl: null
-        });
-
-        window.ui = ui
+            layout: "StandaloneLayout"
+        })
     }
 </script>
 </body>
