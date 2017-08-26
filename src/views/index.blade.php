@@ -95,7 +95,7 @@
             appName: '{{ $appName }}',
             scopeSeparator: '{{ $scopeSeparator }}',
             additionalQueryStringParams: {{ $additionalQueryStringParams }},
-            useBasicAuthenticationWithAccessCodeGrant: '{{ $useBasicAuthenticationWithAccessCodeGrant }}',
+            useBasicAuthenticationWithAccessCodeGrant: {{ $useBasicAuthenticationWithAccessCodeGrant }},
         });
         @endif
 
