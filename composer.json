@@ -23,5 +23,12 @@
         "psr-0": {
             "Appointer\\Swaggervel": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Appointer\\Swaggervel\\SwaggervelServiceProvider"
+            ]
+        }
     }
 }
