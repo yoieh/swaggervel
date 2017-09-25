@@ -53,6 +53,7 @@ class SwaggervelController extends Controller
                 'scopeSeparator' => config('swaggervel.scope-separator'),
                 'additionalQueryStringParams' => json_encode(config('swaggervel.additional-query-string-params'), JSON_FORCE_OBJECT),
                 'useBasicAuthenticationWithAccessCodeGrant' => config('swaggervel.use-basic-auth-with-access-code-grant') ? 'true' : 'false',
+                'uiResourcePath' => config('swaggervel.ui-resource-path'),
             ])
             ->withHeaders(config('swaggervel.view-headers'));
     }
