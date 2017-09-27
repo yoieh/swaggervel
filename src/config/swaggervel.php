@@ -129,5 +129,8 @@ return [
       | Middleware settings to check for user authorization.
       |--------------------------------------------------------------------------
     */
-    'middleware' => []
+    'middleware' => [
+        'docs' => [],
+        'api' => []
+    ]
 ];
