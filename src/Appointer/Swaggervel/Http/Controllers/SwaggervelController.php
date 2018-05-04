@@ -44,7 +44,7 @@ class SwaggervelController extends Controller
         //need the / at the end to avoid CORS errors on Homestead systems.
         return response()
             ->view('swaggervel::index', [
-                'urlToDocs' => url(config('swaggervel.doc-route')),
+                'urlToDocs' => config('swaggervel.doc-route'),
                 'clientId' => config('swaggervel.client-id'),
                 'clientSecret' => config('swaggervel.client-secret'),
                 'realm' => config('swaggervel.realm'),
@@ -54,6 +54,7 @@ class SwaggervelController extends Controller
                 'additionalQueryStringParams' => json_encode(config('swaggervel.additional-query-string-params'), JSON_FORCE_OBJECT),
                 'useBasicAuthenticationWithAccessCodeGrant' => config('swaggervel.use-basic-auth-with-access-code-grant') ? 'true' : 'false',
                 'uiResourcePath' => config('swaggervel.ui-resource-path'),
+                'host' => $this->makeHost(),
             ])
             ->withHeaders(config('swaggervel.view-headers'));
     }
@@ -85,6 +86,16 @@ class SwaggervelController extends Controller
 
             $filename = $docDir . '/api-docs.json';
             file_put_contents($filename, $swagger);
+        }
+    }
+
+    private function makeHost() {
+
+        if (config('swaggervel.secure-protocol')) {
+            return secure_url('');
+        }
+        else {
+            return url('');
         }
     }
 }
